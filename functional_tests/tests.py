@@ -1,9 +1,14 @@
 import time
 
+from django.test import LiveServerTestCase
+# from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from django.test import LiveServerTestCase
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 MAX_WAIT = 10
@@ -55,7 +60,11 @@ class NewVisitorTest(LiveServerTestCase):
 
     def test_multiple_users_can_start_lists_at_different_urls(self):
         self.browser.get(self.live_server_url)
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        try:
+            inputbox = WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.ID, 'id_new_item')))
+        except NoSuchElementException:
+            raise
         inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy peacock feathers')
