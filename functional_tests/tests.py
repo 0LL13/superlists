@@ -4,31 +4,13 @@ import time
 # from django.test import LiveServerTestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-try:
-    from selenium import webdriver
-    from selenium.common.exceptions import WebDriverException
-    from selenium.common.exceptions import NoSuchElementException
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.common.keys import Keys
-    from selenium.webdriver.support.ui import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
-except ModuleNotFoundError:
-    import sys
-    PACKAGE_PARENT = '..'
-    SCRIPT_DIR = os.path.dirname(
-        os.path.realpath(os.path.join(os.getcwd(),
-        os.path.expanduser(__file__))),
-    )  # isort:skip # noqa # pylint: disable=wrong-import-position
-    sys.path.append(
-        os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)),
-    )  # isort: skip # noqa # pylint: disable=wrong-import-position
-    from virtualenv.selenium import webdriver
-    from virtualenv.selenium.common.exceptions import WebDriverException
-    from virtualenv.selenium.common.exceptions import NoSuchElementException
-    from virtualenv.selenium.webdriver.common.by import By
-    from virtualenv.selenium.webdriver.common.keys import Keys
-    from virtualenv.selenium.webdriver.support.ui import WebDriverWait
-    from virtualenv.selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 MAX_WAIT = 10
