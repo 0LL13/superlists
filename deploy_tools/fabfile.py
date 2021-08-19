@@ -9,10 +9,11 @@ REPO_URL = 'https://github.com/0LL13/superlists.git'
 def deploy():
     site_folder = f'/home/{env.user}/sites/{env.host}'
     source_folder = site_folder + '/source'
+    virtualenv_folder = site_folder + '/virtualenv'
     _create_directory_structure_if_necessary(site_folder)
     _get_latest_source(source_folder)
     _update_settings(source_folder, env.host)
-    _update_virtualenv(source_folder)
+    _update_virtualenv(source_folder, virtualenv_folder)
     _update_static_files(source_folder)
     _update_database(source_folder)
 
@@ -46,17 +47,16 @@ def _update_settings(source_folder, site_name):
     append(settings_path, '\nfrom .secret_key import SECRET_KEY')
 
 
-def _update_virtualenv(source_folder):
-    virtualenv_folder = source_folder + '/../virtualenv'
-    if not exists(virtualenv_folder + '/bin/pip'):
+def _update_virtualenv(source_folder, virtualenv_folder):
+    if not exists(virtualenv_folder + '/bin/pip3'):
         run(f'python3.8 -m venv {virtualenv_folder}')
-    run(f'{virtualenv_folder}/bin/pip install -r {source_folder}/requirements.txt')  # noqa
+    run(f'{virtualenv_folder}/bin/pip3 install -r {source_folder}/requirements.txt')  # noqa
 
 
 def _update_static_files(source_folder):
     run(
         f'cd {source_folder}'
-        ' && ../virtualenv/bin/python manage.py collectstatic --noinputo'
+        ' && ../virtualenv/bin/python manage.py collectstatic --noinput'
     )
 
 
