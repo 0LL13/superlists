@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from lists.forms import ItemForm
+from lists.forms import ExistingListItemForm, ItemForm
 from lists.models import Item, List
 
 
@@ -25,10 +25,10 @@ def add_item(request, list_id):
 
 def view_list(request, list_id):
     list_ = List.objects.get(id=list_id)
-    form = ItemForm()
+    form = ExistingListItemForm(for_list=list_)
     if request.method == 'POST':
-        form = ItemForm(data=request.POST)
+        form = ExistingListItemForm(for_list=list_, data=request.POST)
         if form.is_valid():
-            form.save(for_list=list_)
+            form.save()
             return redirect(list_)
     return render(request, 'list.html', {'list': list_, "form": form})
