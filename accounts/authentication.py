@@ -1,5 +1,4 @@
 from accounts.models import User, Token
-# from django.contrib.auth.backends import BaseBackend  # not in book
 
 
 class PasswordlessAuthenticationBackend(object):
