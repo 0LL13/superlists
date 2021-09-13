@@ -18,6 +18,7 @@ def send_login_email(request):
         message_body,
         'noreply@superlists',
         [email],
+        fail_silently=False,
     )
     messages.success(
         request,
@@ -30,4 +31,6 @@ def login(request):
     user = auth.authenticate(uid=request.GET.get('token'))
     if user:
         auth.login(request, user)
+    else:
+        print('no user, no login')
     return redirect('/')
