@@ -1,7 +1,8 @@
-# from fabric.contrib.files import append, exists, sed
+from fabric.contrib.files import append
+# from fabric.contrib.files import exists, sed
 from fabric.contrib.files import exists, sed
 from fabric.api import env, local, run
-# import random
+import random
 
 
 REPO_URL = 'https://github.com/0LL13/superlists.git'
@@ -40,12 +41,12 @@ def _update_settings(source_folder, site_name):
         'ALLOWED_HOSTS =.+$',
         f'ALLOWED_HOSTS = ["{site_name}"]'
         )
-#     secret_key_file = source_folder + '/superlists/secret_key.py'
-#     if not exists(secret_key_file):
-#         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-#         key = ''.join(random.SystemRandom().choice(chars) for _ in range(50))
-#         append(secret_key_file, f'SECRET_KEY = "{key}"')
-#     append(settings_path, '\nfrom .secret_key import SECRET_KEY')
+    secret_key_file = source_folder + '/superlists/secret_key.py'
+    if not exists(secret_key_file):
+        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+        key = ''.join(random.SystemRandom().choice(chars) for _ in range(50))
+        append(secret_key_file, f'SECRET_KEY = "{key}"')
+    append(settings_path, '\nfrom .secret_key import SECRET_KEY')
 
 
 def _update_virtualenv(source_folder, virtualenv_folder):
