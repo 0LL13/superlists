@@ -1,3 +1,5 @@
+import inspect
+
 from django.contrib import auth, messages
 from django.core.mail import send_mail
 from django.urls import reverse
@@ -29,14 +31,14 @@ def send_login_email(request):
 
 def login(request):
     user = auth.authenticate(uid=request.GET.get('token'))
+    print()
+    print('inspecting calling function:', inspect.stack()[1].function)
     print('request:', request)
     print('user:', user)
-    print('request.GET.get("token"):')
-    print(request.GET.get('token'))
+    print('request.GET.get("token"):', request.GET.get('token'))
     if user:
         print('authenticating')
         auth.login(request, user)
     else:
         print('no user, no login')
-    print()
     return redirect('/')
